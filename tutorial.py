@@ -6,7 +6,7 @@ pygame.init()
 class DrawInformation:
 	BLACK = 0, 0, 0
 	WHITE = 255, 255, 255
-	GREEN = 0, 255, 0
+	BLUE = 0, 0, 255
 	RED = 255, 0, 0
 	BACKGROUND_COLOR = WHITE
 
@@ -16,8 +16,8 @@ class DrawInformation:
 		(192, 192, 192)
 	]
 
-	FONT = pygame.font.SysFont('comicsans', 30)
-	LARGE_FONT = pygame.font.SysFont('comicsans', 40)
+	FONT = pygame.font.SysFont('roboto', 40)
+	LARGE_FONT = pygame.font.SysFont('roboto', 50)
 
 	SIDE_PAD = 100
 	TOP_PAD = 150
@@ -43,7 +43,7 @@ class DrawInformation:
 def draw(draw_info, algo_name, ascending):
 	draw_info.window.fill(draw_info.BACKGROUND_COLOR)
 
-	title = draw_info.LARGE_FONT.render(f"{algo_name} - {'Ascending' if ascending else 'Descending'}", 1, draw_info.GREEN)
+	title = draw_info.LARGE_FONT.render(f"{algo_name} - {'Ascending' if ascending else 'Descending'}", 1, draw_info.BLUE)
 	draw_info.window.blit(title, (draw_info.width/2 - title.get_width()/2 , 5))
 
 	controls = draw_info.FONT.render("R - Reset | SPACE - Start Sorting | A - Ascending | D - Descending", 1, draw_info.BLACK)
@@ -60,7 +60,7 @@ def draw_list(draw_info, color_positions={}, clear_bg=False):
 	lst = draw_info.lst
 
 	if clear_bg:
-		clear_rect = (draw_info.SIDE_PAD//2, draw_info.TOP_PAD, 
+		clear_rect = (draw_info.SIDE_PAD//2, draw_info.TOP_PAD,
 						draw_info.width - draw_info.SIDE_PAD, draw_info.height - draw_info.TOP_PAD)
 		pygame.draw.rect(draw_info.window, draw_info.BACKGROUND_COLOR, clear_rect)
 
@@ -71,7 +71,7 @@ def draw_list(draw_info, color_positions={}, clear_bg=False):
 		color = draw_info.GRADIENTS[i % 3]
 
 		if i in color_positions:
-			color = color_positions[i] 
+			color = color_positions[i]
 
 		pygame.draw.rect(draw_info.window, color, (x, y, draw_info.block_width, draw_info.height))
 
@@ -99,7 +99,7 @@ def bubble_sort(draw_info, ascending=True):
 
 			if (num1 > num2 and ascending) or (num1 < num2 and not ascending):
 				lst[j], lst[j + 1] = lst[j + 1], lst[j]
-				draw_list(draw_info, {j: draw_info.GREEN, j + 1: draw_info.RED}, True)
+				draw_list(draw_info, {j: draw_info.BLUE, j + 1: draw_info.RED}, True)
 				yield True
 
 	return lst
@@ -120,7 +120,7 @@ def insertion_sort(draw_info, ascending=True):
 			lst[i] = lst[i - 1]
 			i = i - 1
 			lst[i] = current
-			draw_list(draw_info, {i - 1: draw_info.GREEN, i: draw_info.RED}, True)
+			draw_list(draw_info, {i - 1: draw_info.BLUE, i: draw_info.RED}, True)
 			yield True
 
 	return lst
@@ -135,7 +135,7 @@ def main():
 	max_val = 100
 
 	lst = generate_starting_list(n, min_val, max_val)
-	draw_info = DrawInformation(800, 600, lst)
+	draw_info = DrawInformation(1200, 800, lst)
 	sorting = False
 	ascending = True
 
